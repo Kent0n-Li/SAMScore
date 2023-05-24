@@ -6,7 +6,7 @@
 
 [Arxiv Link](https://arxiv.org/abs/)
 
-<img src='https://richzhang.github.io/PerceptualSimilarity/index_files/fig1_v2.jpg' width=1200>
+<img src='imgs/overview.pdf' width=1200>
 
 ### Quick start
 

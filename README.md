@@ -6,7 +6,7 @@
 
 [Arxiv Link](https://arxiv.org/abs/)
 
-<img src='imgs/overview.pdf' width=1200>
+<img src='imgs/overview.jpg' width=1200>
 
 ### Quick start
 

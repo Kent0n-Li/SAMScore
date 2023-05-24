@@ -2,7 +2,9 @@
 ## SAMScore: A Semantic Structural Similarity Metric for Image Translation Evaluation
 
 [Yunxiang Li](https://www.yunxiangli.top/), Meixu Chen, Wenxuan Yang, Kai Wang, Jun Ma, [Alan C. Bovik](https://www.ece.utexas.edu/people/faculty/alan-bovik), [You Zhang](https://profiles.utsouthwestern.edu/profile/161901/you-zhang.html). 
-[Arxiv](https://arxiv.org/abs/)
+
+
+[Arxiv Link](https://arxiv.org/abs/)
 
 <img src='https://richzhang.github.io/PerceptualSimilarity/index_files/fig1_v2.jpg' width=1200>
 

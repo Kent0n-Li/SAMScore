@@ -102,17 +102,18 @@ def sam_encode(sam_model, image, image_target,device):
             samscore = cosine_similarity(embedding, embedding_target)
         return samscore
 
-def download_model(url,destination):
+def download_model(url,model_name,destination):
 
     chunk_size = 8192  # Size of each chunk in bytes
 
-    response = requests.get(url, stream=True)
+    response = requests.get(url+model_name, stream=True)
 
     if response.status_code == 200:
         with open(destination, "wb") as file:
             for chunk in response.iter_content(chunk_size=chunk_size):
                 file.write(chunk)
         print("File downloaded successfully.")
+        return destination
     else:
         print("Failed to download file. Status code:", response.status_code)
 
@@ -138,30 +139,31 @@ class SAMScore(nn.Module):
 
         super(SAMScore, self).__init__()
 
-        online_vit_l_model_path = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth"
-        online_vit_b_model_path = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth"
-        online_vit_h_model_path = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth"
+        download_url = "https://dl.fbaipublicfiles.com/segment_anything/"
+        online_vit_b_model_name = "sam_vit_b_01ec64.pth"
+        online_vit_l_model_name = "sam_vit_l_0b3195.pth"
+        online_vit_h_model_name = "sam_vit_h_4b8939.pth"
 
         if model_weight_path is None:
             if model_type == "vit_l":
-                online_model_weight_path = online_vit_l_model_path
+                online_model_weight_name = online_vit_l_model_name
             elif model_type == "vit_b":
-                online_model_weight_path = online_vit_b_model_path
+                online_model_weight_name = online_vit_b_model_name
             elif model_type == "vit_h":
-                online_model_weight_path = online_vit_h_model_path
+                online_model_weight_name = online_vit_h_model_name
             else:
                 raise ValueError("model_type must be one of 'vit_l','vit_b','vit_h'")
             
         # to download the model weights from online link
         if model_weight_path is None:
-            model_weight_path = download_model(url = online_model_weight_path,destination= os.path.join("samscore","weights","sam_model.pth"))
+            model_weight_path = download_model(url = download_url,model_name = online_model_weight_name, destination= os.path.join("samscore","weights",online_model_weight_name))
 
                                                
 
         self.version = version
         self.model_type = model_type
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.sam = sam_model_registry[self.model_type](checkpoint=model_weight_path) #"sam_vit_l_0b3195.pth"
+        self.sam = sam_model_registry[self.model_type](checkpoint=model_weight_path)
         self.sam.to(device=self.device)
 
 

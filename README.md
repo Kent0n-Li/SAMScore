@@ -4,7 +4,7 @@
 [Yunxiang Li](https://www.yunxiangli.top/), Meixu Chen, Wenxuan Yang, Kai Wang, [Jun Ma](https://scholar.google.com/citations?hl=zh-CN&user=bW1UV4IAAAAJ), [Alan C. Bovik](https://www.ece.utexas.edu/people/faculty/alan-bovik), [You Zhang](https://profiles.utsouthwestern.edu/profile/161901/you-zhang.html). 
 
 <div>
-    <a href="https://arxiv.org/pdf/2305.15367.pdf"><img src="https://info.arxiv.org/brand/images/brand-logo-primary.jpg" alt="Arxiv" width=50></a>
+    <a href="https://arxiv.org/pdf/2305.15367.pdf"><img src="https://info.arxiv.org/brand/images/brand-logo-primary.jpg" alt="Arxiv" width=85></a>
     <a href="https://colab.research.google.com/github/Kent0n-Li/SAMScore/blob/main/SAMScore.ipynb#scrollTo=mCidlfXu88UY"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
   </div>
   <br>

@@ -15,22 +15,37 @@
 
 ### Quick start
 
-Run `pip install samscore`. The following Python code is all you need.
-
+Run `pip install samscore`.
 ```python
-import argparse
+pip install samscore
+pip install git+https://github.com/facebookresearch/segment-anything.git
+```
+
+The following Python code is all you need.
+```python
+import requests
+import os
 import samscore
 
-parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-p1','--path_source', type=str, default='./imgs/n02381460_20_real.png')
-parser.add_argument('-p0','--path_generated', type=str, default='./imgs/n02381460_20_fake.png')
-parser.add_argument('-v','--version', type=str, default='1.0')
+def download_image(url, save_path):
+    response = requests.get(url)
+    response.raise_for_status()  # Raise an exception if the request was unsuccessful
 
-opt = parser.parse_args()
+    with open(save_path, 'wb') as file:
+        file.write(response.content)
+os.makedirs('imgs', exist_ok=True)
+# Example usage
+image_url = 'https://i.ibb.co/yFFg5pn/n02381460-20-real.png'
+save_location = 'imgs/real.png'
+download_image(image_url, save_location)
+
+image_url = 'https://i.ibb.co/GCQ2jQy/n02381460-20-fake.png'
+save_location = 'imgs/fake.png'
+download_image(image_url, save_location)
 
 ## Initializing the model
-SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_l" )
-samscore_result = SAMScore_Evaluation(source_image_path=opt.path_source,  generated_image_path=opt.path_generated)
+SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_b" )
+samscore_result = SAMScore_Evaluation.evaluation_from_path(source_image_path='imgs/real.png',  generated_image_path='imgs/fake.png')
 
 print('SAMScore: %.4f'%samscore_result)
 ```

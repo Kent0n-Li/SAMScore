@@ -50,7 +50,7 @@ samscore_result = SAMScore_Evaluation.evaluation_from_path(source_image_path='im
 print('SAMScore: %.4f'%samscore_result)
 ```
 
-Use it on torch
+Use it on pytorch
 ```python
 import requests
 import os

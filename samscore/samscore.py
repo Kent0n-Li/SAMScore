@@ -132,8 +132,7 @@ def download_model(url,model_name,destination):
         with open(destination, "wb") as file:
             for chunk in response.iter_content(chunk_size=chunk_size):
                 file.write(chunk)
-        print("File downloaded successfully.")
-        return destination
+        print("Weights downloaded successfully.")
     else:
         print("Failed to download file. Status code:", response.status_code)
 
@@ -176,9 +175,14 @@ class SAMScore(nn.Module):
             
         # to download the model weights from online link
         if model_weight_path is None:
-            model_weight_path = download_model(url = download_url,model_name = online_model_weight_name, destination= os.path.join("samscore","weights",online_model_weight_name))
+            save_path = "weights"
+            destination_path = os.path.join(save_path,online_model_weight_name)
+            model_weight_path = destination_path
 
-                                               
+            if not os.path.exists(destination_path):
+                os.makedirs(save_path,exist_ok=True)
+                download_model(url = download_url,model_name = online_model_weight_name, destination= destination_path)
+
 
         self.version = version
         self.model_type = model_type

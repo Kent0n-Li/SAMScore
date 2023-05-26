@@ -78,28 +78,48 @@ def cosine_similarity(X, Y):
     return similarity
 
 
-def sam_encode(sam_model, image, image_target,device):
+def sam_encode(sam_model, image, image_generated,device):
     if sam_model is not None:
         sam_transform = ResizeLongestSide(sam_model.image_encoder.img_size)
-        resize_img = sam_transform.apply_image(image)
+        resampled_image = sam_transform.apply_image(image)
         # resized_shapes.append(resize_img.shape[:2])
-        resize_img_tensor = torch.as_tensor(resize_img.transpose(2, 0, 1)).to(device)
+        resampled_image_tensor = torch.as_tensor(resampled_image.transpose(2, 0, 1)).to(device)
         # model input: (1, 3, 1024, 1024)
-        input_image = sam_model.preprocess(resize_img_tensor[None, :, :, :])  # (1, 3, 1024, 1024)
-        assert input_image.shape == (1, 3, sam_model.image_encoder.img_size,
+        resampled_image = sam_model.preprocess(resampled_image_tensor[None, :, :, :])  # (1, 3, 1024, 1024)
+        assert resampled_image.shape == (1, 3, sam_model.image_encoder.img_size,
                                      sam_model.image_encoder.img_size), 'input image should be resized to 1024*1024'
 
-        resize_img_target = sam_transform.apply_image(image_target)
-        resize_img_target_tensor = torch.as_tensor(resize_img_target.transpose(2, 0, 1)).to(device)
-        input_image_target = sam_model.preprocess(resize_img_target_tensor[None, :, :, :])
-        assert input_image_target.shape == (1, 3, sam_model.image_encoder.img_size,
+        resampled_image_generated = sam_transform.apply_image(image_generated)
+        resampled_image_generated_tensor = torch.as_tensor(resampled_image_generated.transpose(2, 0, 1)).to(device)
+        resampled_image_generated = sam_model.preprocess(resampled_image_generated_tensor[None, :, :, :])
+        assert resampled_image_generated.shape == (1, 3, sam_model.image_encoder.img_size,
                                             sam_model.image_encoder.img_size), 'input image should be resized to 1024*1024'
 
         # input_imgs.append(input_image.cpu().numpy()[0])
         with torch.no_grad():
-            embedding = sam_model.image_encoder(input_image)
-            embedding_target = sam_model.image_encoder(input_image_target)
-            samscore = cosine_similarity(embedding, embedding_target)
+            embedding = sam_model.image_encoder(resampled_image)
+            embedding_generated = sam_model.image_encoder(resampled_image_generated)
+            samscore = cosine_similarity(embedding, embedding_generated)
+        return samscore
+
+
+def sam_encode_from_torch(sam_model, image, image_generated,device):
+    if sam_model is not None:
+        sam_transform = ResizeLongestSide(sam_model.image_encoder.img_size)
+        resampled_image = sam_transform.apply_image_torch(image).to(device)
+        resampled_image = sam_model.preprocess(resampled_image)
+
+        resampled_image_generated = sam_transform.apply_image_torch(image_generated).to(device)
+        resampled_image_generated = sam_model.preprocess(resampled_image_generated)
+
+        assert resampled_image.shape == (resampled_image.shape[0], 3, sam_model.image_encoder.img_size,sam_model.image_encoder.img_size), 'input image should be resized to 3*1024*1024'
+        assert resampled_image_generated.shape == (resampled_image.shape[0], 3, sam_model.image_encoder.img_size,
+                                            sam_model.image_encoder.img_size), 'input image should be resized to 3*1024*1024'
+
+        with torch.no_grad():
+            embedding = sam_model.image_encoder(resampled_image)
+            embedding_generated = sam_model.image_encoder(resampled_image_generated)
+            samscore = cosine_similarity(embedding, embedding_generated)
         return samscore
 
 def download_model(url,model_name,destination):
@@ -167,15 +187,15 @@ class SAMScore(nn.Module):
         self.sam.to(device=self.device)
 
 
-    def forward(self, source_image_path=None,  generated_image_path=None):
-
+    def evaluation_from_path(self, source_image_path=None,  generated_image_path=None):
         source_cv2 = cv2.imread(source_image_path)
-        source_cv2 = cv2.cvtColor(source_cv2, cv2.COLOR_BGR2RGB)
-
         generated_cv2 = cv2.imread(generated_image_path)
-        generated_cv2 = cv2.cvtColor(generated_cv2, cv2.COLOR_BGR2RGB)
-
         samscore = sam_encode(self.sam, source_cv2, generated_cv2,device = self.device)
-
         return samscore
+
+
+    def evaluation_from_torch(self,source,generated):
+        samscore = sam_encode_from_torch(self.sam,source,generated,device = self.device)
+        return samscore
+
 

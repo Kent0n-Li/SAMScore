@@ -56,7 +56,7 @@ print('SAMScore: %.4f'%samscore_result)
 If you find this repository useful for your research, please use the following.
 
 ```
-@inproceedings{zhang2018perceptual,
+@inproceedings{li2023samscore,
   title={SAMScore: A Semantic Structural Similarity Metric for Image Translation Evaluation},
   author={Yunxiang Li, Meixu Chen, Wenxuan Yang, Kai Wang, Jun Ma, Alan C. Bovik, You Zhang},
   booktitle={arxiv},

@@ -50,6 +50,46 @@ samscore_result = SAMScore_Evaluation.evaluation_from_path(source_image_path='im
 print('SAMScore: %.4f'%samscore_result)
 ```
 
+Use it on torch
+```python
+import requests
+import os
+import samscore
+import cv2
+import torch
+
+def download_image(url, save_path):
+    response = requests.get(url)
+    response.raise_for_status()  # Raise an exception if the request was unsuccessful
+
+    with open(save_path, 'wb') as file:
+        file.write(response.content)
+os.makedirs('imgs', exist_ok=True)
+# Example usage
+image_url = 'https://i.ibb.co/yFFg5pn/n02381460-20-real.png'
+save_location = 'imgs/real.png'
+download_image(image_url, save_location)
+
+image_url = 'https://i.ibb.co/GCQ2jQy/n02381460-20-fake.png'
+save_location = 'imgs/fake.png'
+download_image(image_url, save_location)
+
+
+
+SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_b" )
+
+source_cv2 = cv2.imread('imgs/real.png')
+source = torch.from_numpy(source_cv2.transpose(2, 0, 1)).unsqueeze(0).float()
+source = torch.cat((source,source,source),dim=0)
+
+generated_cv2 = cv2.imread('imgs/fake.png')
+generated = torch.from_numpy(generated_cv2.transpose(2, 0, 1)).unsqueeze(0).float()
+generated = torch.cat((generated,generated,generated),dim=0)
+
+samscore_result = SAMScore_Evaluation.evaluation_from_torch(source,  generated)
+
+print('SAMScore:',samscore_result)
+```
 
 ## Citation
 

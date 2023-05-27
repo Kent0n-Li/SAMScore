@@ -96,10 +96,10 @@ print('SAMScore:',samscore_result)
 If you find this repository useful for your research, please use the following.
 
 ```
-@inproceedings{li2023samscore,
+@article{li2023samscore,
   title={SAMScore: A Semantic Structural Similarity Metric for Image Translation Evaluation},
-  author={Yunxiang Li, Meixu Chen, Wenxuan Yang, Kai Wang, Jun Ma, Alan C. Bovik, You Zhang},
-  booktitle={arxiv},
+  author={Li, Yunxiang and Chen, Meixu and Yang, Wenxuan and Wang, Kai and Ma, Jun and Bovik, Alan C and Zhang, You},
+  journal={arXiv preprint arXiv:2305.15367},
   year={2023}
 }
 ```

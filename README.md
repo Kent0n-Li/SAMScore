@@ -48,7 +48,7 @@ download_image(image_url, save_location)
 
 ## Initializing the model
 # You can choose "vit_t", "vit_l", "vit_b", "vit_h"
-SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_t" )
+SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_b" )
 samscore_result = SAMScore_Evaluation.evaluation_from_path(source_image_path='imgs/real.png',  generated_image_path='imgs/fake.png')
 
 print('SAMScore: %.4f'%samscore_result)
@@ -80,7 +80,7 @@ download_image(image_url, save_location)
 
 
 # You can choose "vit_t", "vit_l", "vit_b", "vit_h"
-SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_t" )
+SAMScore_Evaluation = samscore.SAMScore(model_type = "vit_b" )
 
 source_cv2 = cv2.imread('imgs/real.png')
 source = torch.from_numpy(source_cv2.transpose(2, 0, 1)).unsqueeze(0).float()

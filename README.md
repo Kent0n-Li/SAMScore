@@ -17,6 +17,9 @@
 
 Run `pip install samscore`.
 ```python
+pip install git+https://github.com/ChaoningZhang/MobileSAM.git
+pip install timm
+
 pip install samscore
 pip install git+https://github.com/facebookresearch/segment-anything.git
 ```

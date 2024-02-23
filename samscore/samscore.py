@@ -164,18 +164,7 @@ class SAMScore(nn.Module):
         online_vit_l_model_name = "sam_vit_l_0b3195.pth"
         online_vit_h_model_name = "sam_vit_h_4b8939.pth"
         online_vit_t_model_name = "mobile_sam.pt"
-        
-        if not os.path.exists(model_weight_path):
-            download_model(url = 'https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/mobile_sam.pt', destination= model_weight_path)
-
-
-
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        mobile_sam = sam_model_registry[model_type](checkpoint=model_weight_path)
-        mobile_sam.to(device=device)
-        self.sam_image_encoder = mobile_sam.image_encoder
-
-
+      
         
         if model_weight_path is None:
             if model_type == "vit_l":

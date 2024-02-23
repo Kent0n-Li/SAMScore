@@ -12,6 +12,7 @@ import torchvision.transforms as transforms
 from PIL import Image, ImageDraw, ImageFont
 from segment_anything.utils.transforms import ResizeLongestSide
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
+from mobile_sam import sam_model_registry as mobile_sam_model_registry
 import torch.nn.functional as F
 import cv2
 import requests
@@ -162,7 +163,20 @@ class SAMScore(nn.Module):
         online_vit_b_model_name = "sam_vit_b_01ec64.pth"
         online_vit_l_model_name = "sam_vit_l_0b3195.pth"
         online_vit_h_model_name = "sam_vit_h_4b8939.pth"
+        online_vit_t_model_name = "mobile_sam.pt"
+        
+        if not os.path.exists(model_weight_path):
+            download_model(url = 'https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/mobile_sam.pt', destination= model_weight_path)
 
+
+
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        mobile_sam = sam_model_registry[model_type](checkpoint=model_weight_path)
+        mobile_sam.to(device=device)
+        self.sam_image_encoder = mobile_sam.image_encoder
+
+
+        
         if model_weight_path is None:
             if model_type == "vit_l":
                 online_model_weight_name = online_vit_l_model_name
@@ -170,6 +184,10 @@ class SAMScore(nn.Module):
                 online_model_weight_name = online_vit_b_model_name
             elif model_type == "vit_h":
                 online_model_weight_name = online_vit_h_model_name
+            elif model_type == "vit_t":
+                online_model_weight_name = online_vit_t_model_name
+                download_url = "https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/"
+                
             else:
                 raise ValueError("model_type must be one of 'vit_l','vit_b','vit_h'")
             
@@ -187,7 +205,10 @@ class SAMScore(nn.Module):
         self.version = version
         self.model_type = model_type
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.sam = sam_model_registry[self.model_type](checkpoint=model_weight_path)
+        if model_type == "vit_t":
+            self.sam = mobile_sam_model_registry[model_type](checkpoint=model_weight_path)
+        else:
+            self.sam = sam_model_registry[self.model_type](checkpoint=model_weight_path)
         self.sam.to(device=self.device)
 
 
@@ -201,5 +222,4 @@ class SAMScore(nn.Module):
     def evaluation_from_torch(self,source,generated):
         samscore = sam_encode_from_torch(self.sam,source,generated,device = self.device)
         return samscore
-
-
+        

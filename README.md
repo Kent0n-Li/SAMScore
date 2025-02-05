@@ -1,7 +1,7 @@
 
-## SAMScore: A Semantic Structural Similarity Metric for Image Translation Evaluation
+## [SAMScore: A Content Structural Similarity Metric for Image Translation Evaluation](https://ieeexplore.ieee.org/abstract/document/10857645)
 
-[Yunxiang Li](https://www.yunxiangli.top/), Meixu Chen, Wenxuan Yang, Kai Wang, [Jun Ma](https://scholar.google.com/citations?hl=zh-CN&user=bW1UV4IAAAAJ), [Alan C. Bovik](https://www.ece.utexas.edu/people/faculty/alan-bovik), [You Zhang](https://profiles.utsouthwestern.edu/profile/161901/you-zhang.html). 
+[Yunxiang Li](https://www.yunxiangli.top/), Meixu Chen, Kai Wang, [Jun Ma](https://scholar.google.com/citations?hl=zh-CN&user=bW1UV4IAAAAJ), [Alan C. Bovik](https://www.ece.utexas.edu/people/faculty/alan-bovik), [You Zhang](https://profiles.utsouthwestern.edu/profile/161901/you-zhang.html). 
 
 <div>
     <a href="https://arxiv.org/pdf/2305.15367.pdf"><img src="https://info.arxiv.org/brand/images/brand-logo-primary.jpg" alt="Arxiv" width=85></a> 
@@ -100,11 +100,12 @@ print('SAMScore:',samscore_result)
 If you find this repository useful for your research, please use the following.
 
 ```
-@article{li2023samscore,
-  title={SAMScore: A Semantic Structural Similarity Metric for Image Translation Evaluation},
-  author={Li, Yunxiang and Chen, Meixu and Yang, Wenxuan and Wang, Kai and Ma, Jun and Bovik, Alan C and Zhang, You},
-  journal={arXiv preprint arXiv:2305.15367},
-  year={2023}
+@article{li2025samscore,
+  title={SAMScore: A Content Structural Similarity Metric for Image Translation Evaluation},
+  author={Li, Yunxiang and Chen, Meixu and Wang, Kai and Ma, Jun and Bovik, Alan C and Zhang, You},
+  journal={IEEE Transactions on Artificial Intelligence},
+  year={2025},
+  publisher={IEEE}
 }
 ```
 

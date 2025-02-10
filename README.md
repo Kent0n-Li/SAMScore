@@ -1,5 +1,5 @@
 
-## [SAMScore: A Content Structural Similarity Metric for Image Translation Evaluation](https://ieeexplore.ieee.org/abstract/document/10857645)
+## [SAMScore: A Content Structural Similarity Metric for Image Translation Evaluation (IEEE TAI)](https://ieeexplore.ieee.org/abstract/document/10857645)
 
 [Yunxiang Li](https://www.yunxiangli.top/), Meixu Chen, Kai Wang, [Jun Ma](https://scholar.google.com/citations?hl=zh-CN&user=bW1UV4IAAAAJ), [Alan C. Bovik](https://www.ece.utexas.edu/people/faculty/alan-bovik), [You Zhang](https://profiles.utsouthwestern.edu/profile/161901/you-zhang.html). 
 
